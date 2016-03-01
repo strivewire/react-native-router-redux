@@ -144,6 +144,30 @@ export default createReducer(initialState, {
       mode: actionTypes.ROUTER_REPLACE,
     });
   },
+  [actionTypes.ROUTER_REPLACE_IN_TAB]: (state, { payload = {} }) => {
+    payload.tabBarName = payload.tabBarName || state.activeTabBar;
+    const routes = state.routes.slice();
+    const [tabs, tabStack] = findTabStack(
+      state.tabs, payload.tabBarName, state.activeTab || payload.name);
+    let updates = {};
+    let activeTab = state.activeTab
+
+    if (tabStack) {
+      tabStack.pop();
+      tabStack.push(payload.name);
+      updates = defaultUpdates(payload, tabStack);
+    } else {
+      routes.pop();
+      routes.push(payload.name);
+      updates = defaultUpdates(payload, routes);
+    }
+
+    return Object.assign({}, state, updates, {
+      activeTab,
+      mode: actionTypes.ROUTER_REPLACE,
+      tabs,
+    });
+  },
   [actionTypes.ROUTER_RESET]: (state, { payload = {} }) => {
     const routes = [payload.name];
 

@@ -6,6 +6,7 @@ export const actionTypes = createConstants(
   'ROUTER_POP',
   'ROUTER_PUSH',
   'ROUTER_REPLACE',
+  'ROUTER_REPLACE_IN_TAB',
   'ROUTER_RESET',
 );
 
@@ -67,6 +68,13 @@ export function reset(data) {
 export function replace(data) {
   return {
     type: actionTypes.ROUTER_REPLACE,
+    payload: filter(data),
+  };
+}
+
+export function replaceInTab(data) {
+  return {
+    type: actionTypes.ROUTER_REPLACE_IN_TAB,
     payload: filter(data),
   };
 }
