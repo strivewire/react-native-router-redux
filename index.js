@@ -179,7 +179,12 @@ class Router extends React.Component {
         <Navigator
           configureScene={(route) => route.sceneConfig}
           initialRoute={this.getRoute(this.initialRoute, this.props.router)}
-          ref={(nav) => this.nav = nav}
+          ref={(nav) => {
+            if (!nav) {
+              return;
+            }
+            this.nav = nav;
+          }}
           renderScene={this.renderScene.bind(this)}
         />
         {footer}
