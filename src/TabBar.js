@@ -40,6 +40,17 @@ const textStyle = props => ({
 });
 
 class TabBarIcon extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {icon: null};
+  }
+
+  componentWillMount() {
+    if (this.props.tabItem.icon && this.props.tabItem.icon.then) {
+      this.props.tabItem.icon.then(source => this.setState({icon: source}));
+    }
+  }
+
   render() {
     const { name, tabItem } = this.props;
 
@@ -47,7 +58,7 @@ class TabBarIcon extends Component {
       <View name={name} style={tabContainerStyle()}>
         {tabItem.icon &&
           <Image
-            source={tabItem.icon}
+            source={this.state.icon?this.state.icon:tabItem.icon}
             style={imageStyle(this.props)}
             />
         }
